@@ -10,7 +10,6 @@ logger.setLevel(logging.DEBUG)
 
 # Main Handler
 def lambda_handler(event, context):
-
     return dispatch(event)
 
 
