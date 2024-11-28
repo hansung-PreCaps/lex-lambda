@@ -27,10 +27,9 @@ def close(session_attributes, active_contexts, fulfillment_state, intent, messag
     }
 
     if isinstance(messages, list):
-        for msg in messages:
-            response['messages'].append(msg)
+        response['messages'] = messages
     else:
-        response['messages'].append(messages)
+        response['messages'] = [messages]
 
     return response
 

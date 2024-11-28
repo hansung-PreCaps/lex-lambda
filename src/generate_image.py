@@ -27,7 +27,7 @@ def generate_image(intent_request):
                 session_attributes,
                 active_contexts,
                 intent,
-                'situation',
+                'Situation',
                 '이미지를 생성할 목적을 알려주세요.'
             )
 
@@ -36,7 +36,7 @@ def generate_image(intent_request):
                 session_attributes,
                 active_contexts,
                 intent,
-                'atmosphere',
+                'Atmosphere',
                 '이미지를 생성할 분위기를 알려주세요.'
             )
 
