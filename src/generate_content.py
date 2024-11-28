@@ -22,39 +22,47 @@ def generate_content(intent_request):
         message_purpose = try_ex(slots.get('MessagePurpose'))
         message_keyword = try_ex(slots.get('MessageKeyword'))
 
+        # 슬롯 값이 없는 경우 요청
+        if message_purpose is None:
+            return elicit_slot(
+                session_attributes,
+                active_contexts,
+                intent,
+                'MessagePurpose',
+                '메시지를 생성할 목적을 알려주세요.'
+            )
+
+        if message_keyword is None:
+            return elicit_slot(
+                session_attributes,
+                active_contexts,
+                intent,
+                'MessageKeyword',
+                '메시지를 생성할 키워드를 알려주세요.'
+            )
+
+        # 슬롯 값이 있는 경우 메시지 생성
         if message_purpose and message_keyword:
             active_contexts['MessagePurpose'] = message_purpose
             active_contexts['MessageKeyword'] = message_keyword
 
-            if confirmation_state == 'None':
-                return delegate(
-                    session_attributes,
-                    active_contexts,
-                    intent,
-                    '메시지 내용을 생성하시겠습니까?'
-                )
+            intent['confirmationState'] = 'Confirmed'
+            intent['state'] = 'Fulfilled'
 
-            elif confirmation_state == 'Confirmed':
-                intent['confirmationState'] = 'Confirmed'
-                intent['state'] = 'Fulfilled'
+            message = http_request(session_attributes, slots)
 
-                message = http_request(session_attributes, slots)
-                return close(
-                    session_attributes,
-                    active_contexts,
-                    'Fulfilled',
-                    intent,
-                    message
-                )
+            # test
+            logger.debug(f"Generated message: {message}")
+
+            return close(
+                session_attributes,
+                active_contexts,
+                'Fulfilled',
+                intent,
+                message
+            )
     except Exception as e:
         logger.error(f"메시지 내용 생성 중 오류 발생: {str(e)}")
-        return close(
-            {},
-            {},
-            'Failed',
-            {},
-            '메시지 내용 생성 중 오류가 발생했습니다.'
-        )
 
 
 def http_request(session_attributes, slots):
