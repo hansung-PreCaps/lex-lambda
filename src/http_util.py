@@ -17,7 +17,7 @@ def send_http_request(method, url, body, headers):
         )
         if response.status == 200:
             response_body = json.loads(response.data.decode('utf-8'))
-            message = response_body.get('result').get('message')
+            message = response_body
         else:
             message = f'API 요청 실패: HTTP {response.status}'
     except Exception as e:
