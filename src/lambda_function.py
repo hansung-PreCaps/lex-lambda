@@ -29,10 +29,6 @@ def dispatch(intent_request):
         return close({}, {}, 'Failed', intent, '먼저 로그인 해주세요. (JWT 토큰 없음)')
 
     if not isinstance(message_keyword, type(None)) or not isinstance(message_purpose, type(None)):
-
-        logger.debug('sessionId={}, intentName={}'.format(intent_request['sessionId'],
-                                                          intent_request['sessionState']['intent']['name']))
-
         # Dispatch to bot's intent handlers
         if intent_name == 'GenerateMessageContent':
             return generate_content(intent_request)

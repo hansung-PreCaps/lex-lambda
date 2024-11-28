@@ -34,9 +34,6 @@ def verify_jwt(event):
             logger.error("Missing email claim")
             return False
 
-        # test
-        logger.debug(payload)
-
         return True
 
     except jwt.ExpiredSignatureError:
