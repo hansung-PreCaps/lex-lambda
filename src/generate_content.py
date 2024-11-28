@@ -58,13 +58,16 @@ def generate_content(intent_request):
                 active_contexts,
                 'Fulfilled',
                 intent,
-                {
-                    message,
+                [
+                    {
+                        'contentType': 'PlainText',
+                        'content': message
+                    },
                     {
                         'contentType': 'PlainText',
                         'content': '생성된 메시지가 마음에 들지 않으시다면, 언제든 다시 대화를 시작해주세요.'
                     }
-                }
+                ]
             )
     except Exception as e:
         logger.error(f"메시지 내용 생성 중 오류 발생: {str(e)}")

@@ -48,23 +48,29 @@ def generate_image(intent_request):
             intent['confirmationState'] = 'Confirmed'
             intent['state'] = 'Fulfilled'
 
-            message = http_request(session_attributes, slots)
+            image_url = http_request(session_attributes, slots)
 
-            # test
-            logger.debug(f"Generated message: {message}")
+            logger.debug(f"Generated image url: {image_url}")
 
             return close(
                 session_attributes,
                 active_contexts,
                 'Fulfilled',
                 intent,
-                {
-                    message,
+                [
+                    {
+                        'contentType': 'ImageResponseCard',
+                        'ImageResponseCard': {
+                            'title': '이미지 생성 완료',
+                            'subtitle': f'상황: {situation}, 분위기: {atmosphere}',
+                            'imageUrl': image_url
+                        }
+                    },
                     {
                         'contentType': 'PlainText',
                         'content': '생성된 이미지가 마음에 들지 않으시다면, 언제든 다시 대화를 시작해주세요.'
                     }
-                }
+                ]
             )
     except Exception as e:
         logger.error(f"Intent 처리 중 오류 발생: {str(e)}")

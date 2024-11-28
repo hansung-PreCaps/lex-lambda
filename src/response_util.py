@@ -5,7 +5,7 @@ logger.setLevel(logging.DEBUG)
 
 
 # 사용자와의 대화를 종료한다.
-def close(session_attributes, active_contexts, fulfillment_state, intent, message):
+def close(session_attributes, active_contexts, fulfillment_state, intent, messages):
     response = {
         'sessionState': {
             'activeContexts': [{
@@ -23,8 +23,14 @@ def close(session_attributes, active_contexts, fulfillment_state, intent, messag
             },
             'intent': intent
         },
-        'messages': [{'contentType': 'PlainText', 'content': message}]
+        'messages': []
     }
+
+    if isinstance(messages, list):
+        for msg in messages:
+            response['messages'].append(msg)
+    else:
+        response['messages'].append(messages)
 
     return response
 
