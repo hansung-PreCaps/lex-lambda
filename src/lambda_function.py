@@ -3,6 +3,7 @@ import logging
 from jwt_util import verify_jwt
 from response_util import close, elicit_slot, confirm_intent, delegate, initial_message
 from generate_content import generate_content
+from generate_image import generate_image
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -32,5 +33,7 @@ def dispatch(intent_request):
         # Dispatch to bot's intent handlers
         if intent_name == 'GenerateMessageContent':
             return generate_content(intent_request)
+        if intent_name == 'GenerateImage':
+            return generate_image(intent_request)
 
         raise Exception('Intent name : ' + intent_name + 'is not supported')

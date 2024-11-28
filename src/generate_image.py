@@ -62,7 +62,7 @@ def generate_image(intent_request):
                         'contentType': 'ImageResponseCard',
                         'ImageResponseCard': {
                             'title': '이미지 생성 완료',
-                            'subtitle': f'상황: {situation}, 분위기: {atmosphere}',
+                            'subtitle': f"상황: {situation}, 분위기: {atmosphere}",
                             'imageUrl': image_url
                         }
                     },
